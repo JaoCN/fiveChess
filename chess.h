@@ -1,10 +1,18 @@
-class Chess{
-	public:
-        char* name;
-        int chessarr[200][2];
-        int playflag;
-        int playtime;
+#include <stdio.h>
+#include <iostream>
 
-        int playinit(char *getname, int getplayflag);
+class Chess
+{
+public:
+        char *name;
+        int playernum;
+        int chessarr[200][2];
+        int playflag;   // order : 0/first , 1/second
+        int playtime;
+        int playstyle;
+
+        int playinit(char getname[], int getplayflag, int num);
         int playchess(int x, int y, int **playboard);
+        int playchess_infor(int x_and_y[2]);
+        int update_style(int flag);
 };

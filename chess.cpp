@@ -1,10 +1,12 @@
 #include "chess.h"
 
 
-int Chess::playinit(char *getname, int getplayflag){
+int Chess::playinit(char getname[], int getplayflag, int num){
     name = getname;
+    playernum = num;
     playflag = getplayflag;
     playtime = 0;
+    printf("Init name : %s\n", name);
     return 0;
 }
 
@@ -15,7 +17,7 @@ int Chess::playchess(int x, int y, int **playboard){
         return -1;
     }
     else{
-        playboard[x][y] = playflag;
+        playboard[x][y] = playstyle;
         chessarr[playtime][0] = x;
         chessarr[playtime][1] = y;
         playtime++;
@@ -23,3 +25,22 @@ int Chess::playchess(int x, int y, int **playboard){
     
     return 0;
 }
+
+int Chess::update_style(int flag){
+    playstyle = flag;
+    return 0;
+}
+
+int Chess::playchess_infor(int x_and_y[2]){
+    // printf("name : %s\n", name);
+    std::cout << "name : " << name << std::endl;
+    int x, y;
+    printf("player %s input x :", name);
+    scanf("%d", &x);
+    printf("player %s input y :", name);
+    scanf("%d", &y);
+    x_and_y[0] = y;
+    x_and_y[1] = x;
+    return 0;
+}
+

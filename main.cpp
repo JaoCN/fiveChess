@@ -6,8 +6,11 @@
 using namespace std;
 int **checkerboard;
 int checkboardsize;
-
+const char *p1_style, *p2_style, *default_style;
+const char *stylearr[] = {" X ", " O ", "   "};
 Chess p1, p2;
+
+
 
 // 棋盘初始化、打印以及释放
 int Initcheckerboard();
@@ -19,8 +22,11 @@ int start();
 
 int main(){
 	checkboardsize = 4;
+	p1_style = stylearr[0];
+	p2_style = stylearr[1];
+	default_style = stylearr[2];
 	Initcheckerboard();
-	// Printcheckerboard();
+	Printcheckerboard();
 	start();
 	Delcheckerboard();
 	return 0;
@@ -69,6 +75,8 @@ int startinformation(){
 int playinformation(){
 	char name1[20], name2[20];
 	int num1, num2;
+	int first_player_num = 0;
+	int choose_style_flag = 0;
 
 
 	srand(time(0));
@@ -80,36 +88,121 @@ int playinformation(){
 	num2 = rand() % 100;
 	cout << "compare num " << num1 << num2 << endl;
 	if(num1 >= num2){
-		cout << "# player " << name1 << " first" << endl;
-		p1.playinit(name1, 0);
-		p2.playinit(name2, 1);
+		p1.playinit(name1, 0, 1);
+		p2.playinit(name2, 1, 2);
+		cout << "# player " << p1.name << " first" << endl;
+		first_player_num = 1;
 	}
 	else{
-		cout << "# player " << name2 << " first" << endl;
-		p1.playinit(name1, 1);
-		p2.playinit(name2, 0);
+		p1.playinit(name1, 1, 1);
+		p2.playinit(name2, 0, 2);
+		cout << "# player " << p2.name << " first" << endl;
+		first_player_num = 2;
 	}
 
 	cout << "player1 :" << p1.name << " order : " << p1.playflag << endl;
 	cout << "player2 :" << p2.name << " order : " << p2.playflag << endl;
 
+	do{
+		printf("Please player %d choose chess style [ X ]/[ O ] ([0]/[1]) :", first_player_num);
+		scanf("%d", &choose_style_flag);
+		if((p1.playflag == 0 && choose_style_flag == 0) || (p2.playflag == 0 && choose_style_flag == 1)){
+			p1.update_style(0);
+			p2.update_style(1);
+			printf("Player %d choose chess style %s\n", p1.playernum, stylearr[p1.playstyle]);
+			printf("Player %d choose chess style %s\n", p2.playernum, stylearr[p2.playstyle]);
+			break;
+		}else if((p1.playflag == 0 && choose_style_flag == 1) || (p2.playflag == 0 && choose_style_flag == 0)){
+			p1.update_style(1);
+			p2.update_style(0);
+			printf("Player %d choose chess style %s\n", p1.playernum, stylearr[p1.playstyle]);
+			printf("Player %d choose chess style %s\n", p2.playernum, stylearr[p2.playstyle]);
+			break;
+		}
+		printf("input error! Please inpu again\n");
+	}while(1);
+
 	return 0;
 }
 
-int play(){
+int play()
+{
 	int order;
-	do{
-		if(p1.playflag == 0){
-			
+	int chess[2];
+	order = 0;
+	do
+	{
+		if (p1.playflag == 0)
+		{
+			if(order == 1) goto p2_chess1;
+		p1_chess1:
+			p1.playchess_infor(chess);
+			if (checkerboard[chess[0]][chess[1]] == -1)
+			{
+				p1.playchess(chess[0], chess[1], checkerboard);
+			}
+			else
+			{
+				printf("the position had a chess, please input again!\n");
+				goto p1_chess1;
+			}
+			if(order == 1) goto end1;
+		p2_chess1:
+			p2.playchess_infor(chess);
+			if (checkerboard[chess[0]][chess[1]] == -1)
+			{
+				p2.playchess(chess[0], chess[1], checkerboard);
+			}
+			else
+			{
+				printf("the position had a chess, please input again!\n");
+				goto p2_chess1;
+			}
+			if(order == 1) goto p1_chess1;
+		end1:
+			Printcheckerboard();
+			if(order == 0) order = 1;
+			else order = 0;
 		}
-		else if(p2.playflag == 0){
-
+		else if (p2.playflag == 0)
+		{
+			if(order == 1) goto p1_chess2;
+		p2_chess2:
+			p2.playchess_infor(chess);
+			if (checkerboard[chess[0]][chess[1]] == -1)
+			{
+				p2.playchess(chess[0], chess[1], checkerboard);
+			}
+			else
+			{
+				printf("the position had a chess, please input again!\n");
+				goto p2_chess2;
+			}
+			if(order == 1) goto end2;
+		p1_chess2:
+			p1.playchess_infor(chess);
+			if (checkerboard[chess[0]][chess[1]] == -1)
+			{
+				p1.playchess(chess[0], chess[1], checkerboard);
+			}
+			else
+			{
+				printf("the position had a chess, please input again!\n");
+				goto p1_chess2;
+			}
+			if(order == 1) goto p2_chess2;
+		end2:
+			Printcheckerboard();
+			if(order == 0) order = 1;
+			else order = 0;
 		}
-		else{
+		else
+		{
 			return -1;
 		}
 
-	}while(judge_end());
+		// }while(judge_end());
+	} while (1);
 	return 0;
 }
 
@@ -155,9 +248,10 @@ int Printcheckerboard(){
 		for (auto col = 0; col < checkboardsize; col++){
 			if (col == 0) cout << " ";
 			//cout << checkerboard[row][col];
-			cout << (checkerboard[row][col] == 0 ? " O "
-												: checkerboard[row][col] == 1 ? " X "
-																			  : " F ");
+			
+			cout << (checkerboard[row][col] == 0 ? p1_style
+												 : checkerboard[row][col] == 1 ? p2_style
+																			   : default_style);
 			if (col != (checkboardsize - 1)) cout << "|";
 		}
 		if (row != (checkboardsize - 1)) cout << endl << line << endl;
