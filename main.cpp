@@ -126,20 +126,58 @@ int playinformation(){
 }
 
 int judge_end(int x, int y){
-	int chess_jug_flag;
-	if(checkerboard[x][y] == 0){
-		chess_jug_flag = 0;
-	}else if (checkerboard[x][y] == 1)
+	char horizontal[checkboardsize];
+	char vertical[checkboardsize];
+
+	int rightsize, leftsize;
+	// 获取斜对角数组的长度
+	if (x != y)// 非斜对角
 	{
-		chess_jug_flag = 1;
+		rightsize = checkboardsize - ((x > y) ? (x - y) : (y - x));
+		leftsize = rightsize;
+	}else if (x == y)	//右下对角
+	{
+		rightsize = checkboardsize;
+		int mid = (checkboardsize - 1) / 2;
+		int size = (x >= mid) ? checkboardsize - 1 - x : x;
+		leftsize = (2 * size) + 1;
+		
+	}else if ((x + y + 1) == checkboardsize)	//左下对角
+	{
+		leftsize = checkboardsize;
+		int mid = (checkboardsize - 1) / 2;
+		int size = (x >= mid) ? checkboardsize - 1 - x : x;
+		rightsize = (2 * size) + 1;
 	}
+	
+	
+	char right[rightsize];	// 左斜下
+	char left[leftsize];	// 右斜上
+	
 
-	// judge
-	if(checkboardsize == 3){
-		if()
-	}else if(chess_jug_flag == 5){
+	for (size_t i = 0; i < checkboardsize; i++)
+	{
+		horizontal[i] = checkerboard[i][y];
+		vertical[i] = checkerboard[x][i];
+
 
 	}
+	return 0;
+	
+	// int chess_jug_flag;
+	// if(checkerboard[x][y] == 0){
+	// 	chess_jug_flag = 0;
+	// }else if (checkerboard[x][y] == 1)
+	// {
+	// 	chess_jug_flag = 1;
+	// }
+
+	// // judge
+	// if(checkboardsize == 3){
+	// 	if()
+	// }else if(chess_jug_flag == 5){
+
+	// }
 }
 
 int play()
