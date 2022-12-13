@@ -126,20 +126,32 @@ int playinformation(){
 }
 
 int judge_end(int x, int y){
-	int chess_jug_flag;
-	if(checkerboard[x][y] == 0){
-		chess_jug_flag = 0;
-	}else if (checkerboard[x][y] == 1)
-	{
-		chess_jug_flag = 1;
-	}
+	char horizontal[checkboardsize];
+	char vertical[checkboardsize];
+	char right[checkboardsize];
+	char left[checkboardsize];
 
-	// judge
-	if(checkboardsize == 3){
-		if()
-	}else if(chess_jug_flag == 5){
+	// for (size_t i = 0; i < checkboardsize; i++)
+	// {
+		// horizontal[i] = checkerboard[];
 
-	}
+	// }
+	return 0;
+	
+	// int chess_jug_flag;
+	// if(checkerboard[x][y] == 0){
+	// 	chess_jug_flag = 0;
+	// }else if (checkerboard[x][y] == 1)
+	// {
+	// 	chess_jug_flag = 1;
+	// }
+
+	// // judge
+	// if(checkboardsize == 3){
+	// 	if()
+	// }else if(chess_jug_flag == 5){
+
+	// }
 }
 
 int play()
