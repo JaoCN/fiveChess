@@ -21,7 +21,7 @@ int Printcheckerboard();
 int start();
 
 int main(){
-	checkboardsize = 4;
+	checkboardsize = 3;
 	p1_style = stylearr[0];
 	p2_style = stylearr[1];
 	default_style = stylearr[2];
@@ -125,84 +125,142 @@ int playinformation(){
 	return 0;
 }
 
+int judge_end(int x, int y){
+	int chess_jug_flag;
+	if(checkerboard[x][y] == 0){
+		chess_jug_flag = 0;
+	}else if (checkerboard[x][y] == 1)
+	{
+		chess_jug_flag = 1;
+	}
+
+	// judge
+	if(checkboardsize == 3){
+		if()
+	}else if(chess_jug_flag == 5){
+
+	}
+}
+
 int play()
 {
-	int order;
+	int order = -1;
 	int chess[2];
-	order = 0;
+	if (p1.playflag == 0)
+	{
+		order = 0;
+	}
+	if (p2.playflag == 0)
+	{
+		order = 1;
+	}
+
 	do
 	{
-		if (p1.playflag == 0)
+		if(order == 1) goto p2_chess;
+	p1_chess:
+		p1.playchess_infor(chess);
+		if (checkerboard[chess[0]][chess[1]] == -1)
 		{
-			if(order == 1) goto p2_chess1;
-		p1_chess1:
-			p1.playchess_infor(chess);
-			if (checkerboard[chess[0]][chess[1]] == -1)
-			{
-				p1.playchess(chess[0], chess[1], checkerboard);
-			}
-			else
-			{
-				printf("the position had a chess, please input again!\n");
-				goto p1_chess1;
-			}
-			if(order == 1) goto end1;
-		p2_chess1:
-			p2.playchess_infor(chess);
-			if (checkerboard[chess[0]][chess[1]] == -1)
-			{
-				p2.playchess(chess[0], chess[1], checkerboard);
-			}
-			else
-			{
-				printf("the position had a chess, please input again!\n");
-				goto p2_chess1;
-			}
-			if(order == 1) goto p1_chess1;
-		end1:
-			Printcheckerboard();
-			if(order == 0) order = 1;
-			else order = 0;
-		}
-		else if (p2.playflag == 0)
-		{
-			if(order == 1) goto p1_chess2;
-		p2_chess2:
-			p2.playchess_infor(chess);
-			if (checkerboard[chess[0]][chess[1]] == -1)
-			{
-				p2.playchess(chess[0], chess[1], checkerboard);
-			}
-			else
-			{
-				printf("the position had a chess, please input again!\n");
-				goto p2_chess2;
-			}
-			if(order == 1) goto end2;
-		p1_chess2:
-			p1.playchess_infor(chess);
-			if (checkerboard[chess[0]][chess[1]] == -1)
-			{
-				p1.playchess(chess[0], chess[1], checkerboard);
-			}
-			else
-			{
-				printf("the position had a chess, please input again!\n");
-				goto p1_chess2;
-			}
-			if(order == 1) goto p2_chess2;
-		end2:
-			Printcheckerboard();
-			if(order == 0) order = 1;
-			else order = 0;
+			p1.playchess(chess[0], chess[1], checkerboard);
 		}
 		else
 		{
-			return -1;
+			printf("the position had a chess, please input again!\n");
+			goto p1_chess;
 		}
+		if(order == 1) goto end;
+	p2_chess:
+		p2.playchess_infor(chess);
+		if (checkerboard[chess[0]][chess[1]] == -1)
+		{
+			p2.playchess(chess[0], chess[1], checkerboard);
+		}
+		else
+		{
+			printf("the position had a chess, please input again!\n");
+			goto p2_chess;
+		}
+		if(order == 1) goto p1_chess;
+	end:
+		Printcheckerboard();
 
-		// }while(judge_end());
 	} while (1);
+
+	// order = 0;
+	// do
+	// {
+	// 	if (p1.playflag == 0)
+	// 	{
+	// 		// if(order == 1) goto p2_chess1;
+	// 	p1_chess1:
+	// 		p1.playchess_infor(chess);
+	// 		if (checkerboard[chess[0]][chess[1]] == -1)
+	// 		{
+	// 			p1.playchess(chess[0], chess[1], checkerboard);
+	// 		}
+	// 		else
+	// 		{
+	// 			printf("the position had a chess, please input again!\n");
+	// 			goto p1_chess1;
+	// 		}
+	// 		// if(order == 1) goto end1;
+	// 	p2_chess1:
+	// 		p2.playchess_infor(chess);
+	// 		if (checkerboard[chess[0]][chess[1]] == -1)
+	// 		{
+	// 			p2.playchess(chess[0], chess[1], checkerboard);
+	// 		}
+	// 		else
+	// 		{
+	// 			printf("the position had a chess, please input again!\n");
+	// 			goto p2_chess1;
+	// 		}
+	// 		// if(order == 1) goto p1_chess1;
+	// 	end1:
+	// 		Printcheckerboard();
+	// 		// if(order == 0) order = 1;
+	// 		// else order = 0;
+	// 	}
+	// 	else if (p2.playflag == 0)
+	// 	{
+	// 		// if(order == 1) goto p1_chess2;
+	// 	p2_chess2:
+	// 		p2.playchess_infor(chess);
+	// 		if (checkerboard[chess[0]][chess[1]] == -1)
+	// 		{
+	// 			p2.playchess(chess[0], chess[1], checkerboard);
+	// 		}
+	// 		else
+	// 		{
+	// 			printf("the position had a chess, please input again!\n");
+	// 			goto p2_chess2;
+	// 		}
+	// 		// if(order == 1) goto end2;
+	// 	p1_chess2:
+	// 		p1.playchess_infor(chess);
+	// 		if (checkerboard[chess[0]][chess[1]] == -1)
+	// 		{
+	// 			p1.playchess(chess[0], chess[1], checkerboard);
+	// 		}
+	// 		else
+	// 		{
+	// 			printf("the position had a chess, please input again!\n");
+	// 			goto p1_chess2;
+	// 		}
+	// 		// if(order == 1) goto p2_chess2;
+	// 	end2:
+	// 		Printcheckerboard();
+	// 		// if(order == 0) order = 1;
+	// 		// else order = 0;
+	// 	}
+	// 	else
+	// 	{
+	// 		return -1;
+	// 	}
+
+	// 	// }while(judge_end());
+	// } while (1);
 	return 0;
 }
 

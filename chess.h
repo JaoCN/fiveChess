@@ -1,10 +1,11 @@
 #include <stdio.h>
 #include <iostream>
+#include <string.h>
 
 class Chess
 {
 public:
-        char *name;
+        char name[10];
         int playernum;
         int chessarr[200][2];
         int playflag;   // order : 0/first , 1/second
