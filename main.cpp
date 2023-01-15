@@ -17,11 +17,13 @@ int Initcheckerboard();
 int Delcheckerboard();
 int Printcheckerboard();
 
+void printf_dic(int array[], int len);
+
 // 开始
 int start();
 
 int main(){
-	checkboardsize = 3;
+	checkboardsize = 6;
 	p1_style = stylearr[0];
 	p2_style = stylearr[1];
 	default_style = stylearr[2];
@@ -126,8 +128,8 @@ int playinformation(){
 }
 
 int judge_end(int x, int y){
-	char horizontal[checkboardsize];
-	char vertical[checkboardsize];
+	int horizontal[checkboardsize];
+	int vertical[checkboardsize];
 
 	int rightsize, leftsize;
 	// 获取斜对角数组的长度
@@ -151,17 +153,41 @@ int judge_end(int x, int y){
 	}
 	
 	
-	char right[rightsize];	// 左斜下
-	char left[leftsize];	// 右斜上
+	int right[rightsize];	// 左斜下
+	int left[leftsize];	// 右斜上
 	
 
+	// 横竖
 	for (size_t i = 0; i < checkboardsize; i++)
 	{
 		horizontal[i] = checkerboard[i][y];
 		vertical[i] = checkerboard[x][i];
-
-
 	}
+
+	int offset = x > y ? (x - y) : (y - x); 
+	// 左斜下
+	for(size_t i = 0; i < checkboardsize; i++){
+		if((i >= 0) && (i <= (checkboardsize - offset - 1))){
+			right[i] = checkerboard[i][i + offset];
+		}
+	}
+
+	for(size_t i = 0; i < checkboardsize; i++){
+		if(i >= 0 && i <= offset){
+		left[i] = checkerboard[offset - i][i];
+		}
+	}
+
+	printf("=====\n");
+	printf("checkboardsize = %d, right size = %d, left size = %d\n", checkboardsize, rightsize, leftsize);
+	printf_dic(horizontal, checkboardsize);
+	printf_dic(vertical, checkboardsize);
+	printf_dic(right, rightsize);
+	printf_dic(left, leftsize);
+	printf("=====\n");
+
+
+
 	return 0;
 	
 	// int chess_jug_flag;
@@ -207,6 +233,7 @@ int play()
 			printf("the position had a chess, please input again!\n");
 			goto p1_chess;
 		}
+		judge_end(chess[0], chess[1]);
 		if(order == 1) goto end;
 	p2_chess:
 		p2.playchess_infor(chess);
@@ -219,6 +246,7 @@ int play()
 			printf("the position had a chess, please input again!\n");
 			goto p2_chess;
 		}
+		judge_end(chess[0], chess[1]);
 		if(order == 1) goto p1_chess;
 	end:
 		Printcheckerboard();
@@ -356,3 +384,14 @@ int Printcheckerboard(){
 	return 0;
 }
 
+void printf_dic(int array[], int len){
+	for (size_t i = 0; i < len; i++)
+	{
+		printf("%d", array[i]);
+		if(i != len - 1){
+			printf(" ");
+		}
+	}
+	printf("\n");
+	
+}
