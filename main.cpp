@@ -133,14 +133,12 @@ int judge_end(int x, int y){
 
 	int rightsize, leftsize;
 	// 获取斜对角数组的长度
-	if (x != y && ((x + y + 1) != checkboardsize))// 非斜对角
+	if (x != y)// 非斜对角
 	{
-		printf("case 0\n");
 		rightsize = checkboardsize - ((x > y) ? (x - y) : (y - x));
 		leftsize = rightsize;
 	}else if (x == y)	//右下对角
 	{
-		printf("case 1\n");
 		rightsize = checkboardsize;
 		int mid = (checkboardsize - 1) / 2;
 		int size = (x >= mid) ? checkboardsize - 1 - x : x;
@@ -148,7 +146,6 @@ int judge_end(int x, int y){
 		
 	}else if ((x + y + 1) == checkboardsize)	//左下对角
 	{
-		printf("case 2\n");
 		leftsize = checkboardsize;
 		int mid = (checkboardsize - 1) / 2;
 		int size = (x >= mid) ? checkboardsize - 1 - x : x;
@@ -163,8 +160,8 @@ int judge_end(int x, int y){
 	// 横竖
 	for (size_t i = 0; i < checkboardsize; i++)
 	{
-		horizontal[i] = checkerboard[x][i];
-		vertical[i] = checkerboard[i][y];
+		horizontal[i] = checkerboard[i][y];
+		vertical[i] = checkerboard[x][i];
 	}
 
 	int offset = x > y ? (x - y) : (y - x); 
